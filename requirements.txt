@@ -1,0 +1,5 @@
+# Không cần cài thêm thư viện nào.
+# Tất cả đều dùng thư viện chuẩn của Python 3.x:
+#   - sqlite3   (database)
+#   - argparse  (command line)
+#   - datetime  (timestamp)
