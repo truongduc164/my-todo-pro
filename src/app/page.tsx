@@ -52,8 +52,8 @@ const INITIAL_DEMO_TODOS: Todo[] = [
 ];
 
 export default function HomePage() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [todos, setTodos] = useState<Todo[]>(INITIAL_DEMO_TODOS);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isLiveSupabase, setIsLiveSupabase] = useState(false);
   const [isLiveR2, setIsLiveR2] = useState(false);
