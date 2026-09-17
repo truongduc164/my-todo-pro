@@ -333,7 +333,7 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col">
       <Navbar
         userEmail={user?.email}
-        isSupabaseLive={isLiveSupabase && Boolean(user)}
+        isSupabaseConfigured={isLiveSupabase}
         storageProvider={storageProvider}
         onLogout={handleLogout}
       />
@@ -348,19 +348,25 @@ export default function HomePage() {
               </div>
               <div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                  Dự án đang chạy chế độ Thực hành cục bộ (Local Storage Demo)
+                  {isLiveSupabase
+                    ? "⚡ Database Supabase đã sẵn sàng! Hãy đăng nhập để đồng bộ lên Cloud"
+                    : "Dự án đang chạy chế độ Thực hành cục bộ (Local Storage Demo)"}
                 </h4>
                 <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                  Mọi công việc bạn thêm hoặc chỉnh sửa đều được lưu an toàn trên trình duyệt của bạn (không bị mất khi F5). Đăng nhập để đồng bộ lên Supabase Cloud!
+                  {isLiveSupabase
+                    ? "Bấm nút [Đăng nhập] ở góc trên bên phải để tạo tài khoản cá nhân và lưu dữ liệu trực tiếp lên Supabase Cloud!"
+                    : "Mọi công việc bạn thêm hoặc chỉnh sửa đều được lưu an toàn trên trình duyệt của bạn (không bị mất khi F5). Đăng nhập để đồng bộ lên Supabase Cloud!"}
                 </p>
               </div>
             </div>
-            <a
-              href="#instructions"
-              className="text-xs font-semibold px-3 py-2 rounded-xl bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-slate-700 hover:shadow-sm whitespace-nowrap"
-            >
-              Xem các bước làm
-            </a>
+            {!isLiveSupabase && (
+              <a
+                href="#instructions"
+                className="text-xs font-semibold px-3 py-2 rounded-xl bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-slate-700 hover:shadow-sm whitespace-nowrap"
+              >
+                Xem các bước làm
+              </a>
+            )}
           </div>
         )}
 

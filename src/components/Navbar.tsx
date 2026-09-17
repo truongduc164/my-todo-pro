@@ -6,14 +6,14 @@ import { CheckCircle2, Moon, Sun, LogIn, LogOut, Database, Cloud } from "lucide-
 
 interface NavbarProps {
   userEmail?: string | null;
-  isSupabaseLive?: boolean;
+  isSupabaseConfigured?: boolean;
   storageProvider?: "cloudflare_r2" | "supabase_storage" | "demo";
   onLogout?: () => void;
 }
 
 export default function Navbar({
   userEmail,
-  isSupabaseLive = false,
+  isSupabaseConfigured = false,
   storageProvider = "demo",
   onLogout,
 }: NavbarProps) {
@@ -67,14 +67,29 @@ export default function Navbar({
         <div className="hidden md:flex items-center gap-2 text-xs">
           <div
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border ${
-              isSupabaseLive
+              userEmail
                 ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60"
+                : isSupabaseConfigured
+                ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800/60"
                 : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700"
             }`}
-            title={isSupabaseLive ? "Supabase đã kết nối" : "Chế độ lưu tạm trình duyệt (chưa có key Supabase)"}
+            title={
+              userEmail
+                ? `Đã kết nối tài khoản: ${userEmail}`
+                : isSupabaseConfigured
+                ? "Database đã kết nối! Hãy bấm Đăng nhập để đồng bộ công việc."
+                : "Chế độ lưu tạm trình duyệt (chưa có key Supabase)"
+            }
           >
             <Database className="w-3.5 h-3.5" />
-            <span>Supabase: {isSupabaseLive ? "Live" : "Local Demo"}</span>
+            <span>
+              Supabase:{" "}
+              {userEmail
+                ? "Live"
+                : isSupabaseConfigured
+                ? "Sẵn sàng (Chưa đăng nhập)"
+                : "Local Demo"}
+            </span>
           </div>
 
           <div

@@ -47,8 +47,18 @@ create policy "Users can delete own todos"
     on public.todos for delete
     using (auth.uid() = user_id);
 
--- 5. Bật tính năng Realtime (để cập nhật dữ liệu tức thì không cần reload trang)
-alter publication supabase_realtime add table public.todos;
+-- 5. Bật tính năng Realtime (an toàn không báo lỗi nếu đã bật)
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime'
+    and schemaname = 'public'
+    and tablename = 'todos'
+  ) then
+    alter publication supabase_realtime add table public.todos;
+  end if;
+end $$;
 
 -- 6. Tạo Bucket lưu trữ ảnh công việc 'todo-images' (Supabase Storage miễn phí 1GB, không cần thẻ tín dụng)
 insert into storage.buckets (id, name, public)
