@@ -1,0 +1,17 @@
+name: Watchdog Keep-Alive
+
+on:
+  schedule:
+    # Chạy tự động mỗi 2 ngày một lần lúc 06:00 UTC (13:00 giờ Việt Nam)
+    - cron: '0 6 */2 * *'
+  workflow_dispatch: # Cho phép bấm nút chạy thủ công bất cứ lúc nào trên GitHub
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Watchdog Ping to Vercel & Supabase
+        run: |
+          echo "Dang gui request danh thuc web va Supabase database..."
+          curl -s -f "https://my-todo-pro-48.vercel.app/api/watchdog" || echo "Ping that bai hoac web dang deploy"
+          echo "Hoan thanh kiem tra Watchdog!"
