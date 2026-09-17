@@ -5,8 +5,12 @@ import { createClient } from "@supabase/supabase-js";
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
 const getSupabase = () => {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    "https://pobgsdhzttmpkhrohobw.supabase.co";
+  const key =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    "sb_publishable_r_GMW6oVxI4mlEIrsJtcWg_kAdMhm5G";
   if (!url || !key || !url.startsWith("http")) return null;
   return createClient(url, key);
 };
