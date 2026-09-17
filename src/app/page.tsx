@@ -56,7 +56,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isLiveSupabase, setIsLiveSupabase] = useState(false);
-  const [isLiveR2, setIsLiveR2] = useState(false);
+  const [storageProvider, setStorageProvider] = useState<"cloudflare_r2" | "supabase_storage" | "demo">("demo");
 
   const [filter, setFilter] = useState<TodoFilterState>({
     search: "",
@@ -129,11 +129,11 @@ export default function HomePage() {
     const supabaseConfigured = isSupabaseConfigured();
     setIsLiveSupabase(supabaseConfigured);
 
-    // Kiểm tra trạng thái Cloudflare R2 qua API endpoint (tránh leak AWS SDK vào client)
+    // Kiểm tra trạng thái lưu trữ ảnh (Cloudflare R2 hoặc Supabase Storage) qua API endpoint
     fetch("/api/upload")
       .then((res) => res.json())
-      .then((data) => setIsLiveR2(Boolean(data.isR2Configured)))
-      .catch(() => setIsLiveR2(false));
+      .then((data) => setStorageProvider(data.activeProvider || "demo"))
+      .catch(() => setStorageProvider("demo"));
 
     const supabase = createClient();
 
@@ -334,7 +334,7 @@ export default function HomePage() {
       <Navbar
         userEmail={user?.email}
         isSupabaseLive={isLiveSupabase && Boolean(user)}
-        isR2Live={isLiveR2}
+        storageProvider={storageProvider}
         onLogout={handleLogout}
       />
 

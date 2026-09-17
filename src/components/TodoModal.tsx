@@ -258,10 +258,10 @@ export default function TodoModal({
             </div>
           </div>
 
-          {/* Cloudflare R2 Image Upload */}
+          {/* Cloud Image Upload */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-              Ảnh đính kèm (Cloudflare R2 Storage)
+              Ảnh đính kèm (Lưu trữ ảnh Cloud)
             </label>
 
             {imageUrl ? (

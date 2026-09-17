@@ -49,3 +49,21 @@ create policy "Users can delete own todos"
 
 -- 5. Bật tính năng Realtime (để cập nhật dữ liệu tức thì không cần reload trang)
 alter publication supabase_realtime add table public.todos;
+
+-- 6. Tạo Bucket lưu trữ ảnh công việc 'todo-images' (Supabase Storage miễn phí 1GB, không cần thẻ tín dụng)
+insert into storage.buckets (id, name, public)
+values ('todo-images', 'todo-images', true)
+on conflict (id) do update set public = true;
+
+-- Cho phép mọi người xem ảnh công khai
+drop policy if exists "Public Access to todo-images" on storage.objects;
+create policy "Public Access to todo-images"
+    on storage.objects for select
+    using (bucket_id = 'todo-images');
+
+-- Cho phép người dùng tải ảnh lên bucket
+drop policy if exists "Allow Upload to todo-images" on storage.objects;
+create policy "Allow Upload to todo-images"
+    on storage.objects for insert
+    with check (bucket_id = 'todo-images');
+

@@ -7,14 +7,14 @@ import { CheckCircle2, Moon, Sun, LogIn, LogOut, Database, Cloud } from "lucide-
 interface NavbarProps {
   userEmail?: string | null;
   isSupabaseLive?: boolean;
-  isR2Live?: boolean;
+  storageProvider?: "cloudflare_r2" | "supabase_storage" | "demo";
   onLogout?: () => void;
 }
 
 export default function Navbar({
   userEmail,
   isSupabaseLive = false,
-  isR2Live = false,
+  storageProvider = "demo",
   onLogout,
 }: NavbarProps) {
   const [isDark, setIsDark] = useState(false);
@@ -79,14 +79,29 @@ export default function Navbar({
 
           <div
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border ${
-              isR2Live
+              storageProvider === "cloudflare_r2"
                 ? "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/60"
+                : storageProvider === "supabase_storage"
+                ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60"
                 : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700"
             }`}
-            title={isR2Live ? "Cloudflare R2 đã cấu hình" : "Chế độ ảnh demo (chưa có key R2)"}
+            title={
+              storageProvider === "cloudflare_r2"
+                ? "Lưu trữ qua Cloudflare R2"
+                : storageProvider === "supabase_storage"
+                ? "Lưu trữ qua Supabase Storage (100% Miễn phí, không cần thẻ)"
+                : "Chế độ ảnh demo (lưu tạm trình duyệt)"
+            }
           >
             <Cloud className="w-3.5 h-3.5" />
-            <span>Cloudflare R2: {isR2Live ? "Live" : "Demo"}</span>
+            <span>
+              Kho ảnh:{" "}
+              {storageProvider === "cloudflare_r2"
+                ? "Cloudflare R2"
+                : storageProvider === "supabase_storage"
+                ? "Supabase Storage"
+                : "Demo"}
+            </span>
           </div>
         </div>
 
